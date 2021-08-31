@@ -78,10 +78,6 @@
             console.log('Error Occured');
         });
 
-
-    //const origin = 'http://localhost:8080';
-    const origin = 'https://ichatu.ga';
-
     const formLogin = document.querySelector('#form-login');
     const inputNickname = formLogin.querySelector('input[name="nickname"]');
     const inputPassword = formLogin.querySelector('input[name="password"]');
@@ -124,7 +120,7 @@
     btnSignup.addEventListener('click', (e) => {
         e.preventDefault();
 
-        location = '/signup';
+        location = 'signup';
     });
 
     function storeData(data){

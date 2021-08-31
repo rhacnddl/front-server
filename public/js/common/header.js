@@ -1,5 +1,5 @@
 //const origin = 'http://localhost:8080';
-const origin = 'https://ichatu.ga';
+//const origin = 'https://ichatu.ga';
 const uri = '/api/v1';
 
 const header = document.querySelector('#header');
@@ -68,6 +68,9 @@ export const hideToast = () => {
 /* --- Logic --- */
 /* 페이지 처음 로드 시, 미확인 알림 개수가 0개? bell-off : bell-on */
 (() => {
+
+    if(!sessionMemberId) return;
+
     axios({
         url:`${origin}${uri}/notifications/${sessionMemberId}`,
         method: 'GET',

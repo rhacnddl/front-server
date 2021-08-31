@@ -1,5 +1,5 @@
 //const origin = 'http://localhost:8080';
-const origin = 'https://ichatu.ga';
+//const origin = 'https://ichatu.ga';
 
 const formSignup = document.querySelector('#form-signup');
 const inputNickname = formSignup.querySelector('#nickname');
