@@ -1,0 +1,376 @@
+/* Header */
+#header{
+    width: 100%;
+    height: 60px;
+    background-color: #fff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    border-bottom: 1px solid #b9b9b9;
+    padding: 0 10px;
+
+    position: fixed;
+    z-index: 50;
+}
+/* Logo */
+#header .hd-first-box{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+}
+#header .hd-link{
+    height: 60px;
+    width: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#header .hd-logo{
+    height: 60px;
+    width: 100px;
+    object-fit: contain;
+}
+/* Search Bar */
+#header .hd-search-box{
+    height: 50px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+    .hd-search-box .hd-search-bar{
+        width: 100%;
+        height: 27px;
+        border-radius: 10px;
+        padding: 0 10px;
+        line-height: 27px;
+        outline: none;
+
+        display: none;
+    }
+    .hd-search-box .hd-btn-search{
+        padding-right: 30px;
+        text-indent: -999px;
+        overflow: hidden;
+        border: none;
+        cursor: pointer;
+
+        /* PC -> 32px */
+        height: 20px; 
+        width: 20px;
+        background: url("/image/common/search.png") no-repeat center/contain;
+    }
+#header .icon-box{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+/* Notification Bell */
+.bell-box{
+    position: relative;
+    font-size: 12px !important;
+}
+    .bell{
+        height: 27px;
+        width: 27px;
+        text-indent: -999px;
+        overflow: hidden;
+        display: block;
+    }
+    .bell:hover{
+        cursor: pointer;
+    }
+    .bell-off{
+        background: url("/image/header/bell-off.png") no-repeat center/contain;
+    }
+    .bell-on{
+        background: url("/image/header/bell-on.png") no-repeat center/contain;
+    }
+    /* Toast */
+    .toast{
+        position: absolute;
+        right: 0;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        height: 35px;
+        width: 300px;        
+        border: #000 1px solid;    
+        border-radius: 10px;
+
+        transition: 0.5s;
+
+        background-color: #fff;
+    }
+    .toast-off{
+        opacity: 0;
+        z-index: -1;
+    }
+    .toast-on{
+        opacity: 1;
+        z-index: 15;
+    }
+    /* Notification Box */
+    .notification-box{
+        z-index: 10;
+        border: 1px solid #797979;
+        border-radius: 10px;
+        min-height: 200px;
+        max-height: 400px;
+        width: 300px;
+        padding: 5px 0;
+
+        position: absolute;
+        right: 0;
+        background: #fff;
+
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+    }
+        .notification-box > .top{
+            height: 25px;
+            display: flex;
+            justify-content: flex-end;
+            gap: 5px;
+            padding: 0 5px;
+
+            font-size: var(--font-mb-md);
+        }
+            .top > button{
+                border: 1px solid #e9e9e9;
+                border-radius: 5px;
+
+                line-height: 16px;
+                padding: 5px 10px;
+
+                color: #fff;
+                cursor: pointer;
+            }
+            .top .btn-check-all{
+                background-color: var(--btn-blue-color-off);
+            }
+            .top .btn-check-all:hover{
+                background-color: var(--btn-blue-color-on);
+            }
+            .top .btn-remove-all{
+                background-color: var(--btn-red-color-off);
+            }
+            .top .btn-remove-all:hover{
+                background-color: var(--btn-red-color-on);
+            }
+        .notification-box > .notifications{
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            
+
+            height: 80%;
+            overflow-y: scroll;
+            overflow-x: hidden;
+
+            border: 1px solid #e9e9e9;
+            text-align: center;
+        }
+            .notifications .notification{
+                height: 45px;
+                padding: 5px;
+
+                display: flex;
+                gap: 5px;
+                border-bottom: 1px solid #b9b9b9;
+            }
+            .notifications :last-child :last-child{
+                border-bottom: none;
+            }
+            .notifications .notification-off{
+                background: none;
+            }
+            .notifications .notification-on{
+                background: url("/image/common/new.png") no-repeat 98% top/19px;
+            }
+            .notifications .nt-profile-box{
+                height: 35px;
+                width: 35px;
+            }
+            .notifications .nt-profile{
+                height: 35px;
+                width: 35px;
+                object-fit: contain;
+                border-radius: 50%;
+                border: 1px solid #e9e9e9;
+            }
+            .notifications .nt-body{
+                line-height: 35px;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+                overflow: hidden;
+            }
+            .notifications .nt-body:hover{
+                font-weight: bold;
+                color: rgba(88, 97, 225, 0.967);
+            }
+        .notification-box > .bottom{
+            height: 25px;
+            display: flex;
+            justify-content: center;
+
+            overflow: hidden;
+            text-indent: -999px;
+        }
+            .bottom .btn-nt-more{
+                height: 25px;
+                width: 25px;
+
+                background: url("/image/common/more-off.png") no-repeat center/contain;
+            }
+            .bottom .btn-nt-more:hover{
+                background: url("/image/common/more-on.png") no-repeat center/contain;
+            }
+    #header .profile-box{
+
+    }
+    /* Header -> profile */
+    #header .hd-profile{
+        text-indent: -999px;
+        overflow: hidden;
+
+        height: 23px;
+        width: 23px;
+
+        /* background: url("/image/common/profile.png") no-repeat center/contain; */
+        background-image: url("/image/common/profile.png");
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position-x: center;
+        background-position-y: center;
+        background-color: #fff;
+
+        border: 1px solid #e9e9e9;
+        border-radius: 50%;
+        cursor: pointer;
+    }
+    /* Header -> menu */
+    #header .hd-menu{
+        height: 20px;
+        width: 20px;
+        text-indent: -999px;
+        overflow: hidden;
+        display: block;
+
+        border: none;
+        outline: none;
+        cursor: pointer;
+
+        background: url("/image/header/menu.png") no-repeat center/contain;
+    }
+    /* 비 로그인 시 */
+    #header .hd-button-box{
+        display: flex;
+        gap: 10px;
+    }
+    .hd-button-box span{
+        color: #000;
+        cursor: pointer;
+    }
+
+/* SCREEN */
+.black-screen{
+    position: absolute;
+    background: #000;
+
+    width: 100%;
+    height: 100%;
+    z-index: 19;
+    opacity: 0.7;
+
+    top: 0;
+    left: 0;
+}
+
+@media screen and (min-width: 700px){
+/* Bell for Notification */
+#header{
+    padding: 0 10%;
+}
+#header .hd-search-box{
+
+}
+    .hd-search-box .hd-search-bar{
+        width: 100%;
+        height: 27px;
+        border-radius: 10px;
+        padding: 0 10px;
+        line-height: 27px;
+        outline: none;
+
+        display: initial;
+    }
+.bell-box{
+    
+}
+    .bell{
+        height: 32px;
+        width: 32px;
+    }
+    /* Toast */
+    .toast{
+        height: 40px;
+        width: 400px;        
+    }
+        /* Notification Box */
+        .notification-box{
+            min-height: 200px;
+            max-height: 400px;
+            width: 400px;
+        
+            padding: 5px 0;
+        }
+            .notification-box > .top{
+                height: 30px;
+
+                font-size: var(--font-pc-md);
+            }
+            .top > button{
+                line-height: 21px;
+            }
+            .notification-box > .notifications{
+                height: 80%;
+            }
+                .notifications .notification{
+                    height: 50px;
+                }
+                .notifications .nt-profile-box{
+                    height: 40px;
+                    width: 40px;
+                }
+                .notifications .nt-profile{
+                    height: 40px;
+                    width: 40px;
+                }
+                .notifications .nt-body{
+                    line-height: 40px;
+                }
+            .notification-box > .bottom{
+                height: 30px;
+            }
+                .bottom .btn-nt-more{
+                    height: 30px;
+                    width: 30px;
+                }
+    /* Header -> profile */
+    #header .hd-profile{
+        height: 32px;
+        width: 32px;
+    }
+    /* Header -> menu */
+    #header .hd-menu{
+        display: none;
+    }
+}
+

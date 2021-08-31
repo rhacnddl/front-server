@@ -1,0 +1,322 @@
+/* ROOM CSS */
+.room-box{
+    padding: 5px;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 5px;
+
+    height: 100%;
+}
+
+    .room-box .chat-title{
+        margin: 0;
+        padding: 5px;
+        font-size: var(--font-mb-lg);
+        display: flex;
+    }
+
+        .room-box .btn-subscribe{
+            cursor: pointer;
+            display: block;
+            text-indent: -999px;
+            overflow: hidden;
+            height: var(--font-mb-lg);
+            width: var(--font-mb-lg);
+
+            margin-left: 5px;
+        }
+            .sub-off{
+                background: url("/image/common/star-off.png") no-repeat center/contain;
+            }
+            .sub-on{
+                background: url("/image/common/star-on.png") no-repeat center/contain;
+            }
+    .room-box .room-info{
+        display: flex;
+        justify-content: space-between;
+        padding: 5px 5px 0 5px;
+    }
+    .room-info .room-info-front{
+        display: flex;
+        gap: 7px;
+    }
+        .room-info .room-members,
+        .room-info .room-pin{
+            display: block;
+            text-indent: -999px;
+            overflow: hidden;
+            cursor: pointer;
+
+            height: 13px;
+            width: 13px;
+        }
+        .room-info .room-members{
+            opacity: 0.6;
+            background: url("/image/common/user.png") no-repeat center/contain;
+        }
+        .room-info .room-members-count{
+            font-weight: bold;
+            font-size: var(--font-mb-md);
+            color: #797979;
+        }
+        .room-info .partition{
+            font-size: var(--font-mb-md);
+            color: #e9e9e9;
+        }
+        .room-info .room-pin{
+            background: url("/image/chat/push-pin.png") no-repeat center/contain;
+        }
+    .room-info .room-info-back{
+        display: flex;
+        gap: 7px;
+    }
+        .room-info .room-drop{
+            display: block;
+            text-indent: -999px;
+            overflow: hidden;
+            cursor: pointer;
+
+            height: 15px;
+            width: 15px;
+
+            background: url("/image/chat/drop.png") no-repeat center/contain;
+        }
+
+    .room-box .chats{
+        position: relative;
+
+        padding: 10px;
+        flex-grow: 1;
+        border: 1px solid #e9e9e9;
+        border-radius: 10px;
+
+        min-height: 420px;
+        max-height: 420px;
+        overflow-y: scroll;
+
+        -ms-overflow-style: none; /* IE and Edge */
+        scrollbar-width: none; /* Firefox */
+
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+    .chats::-webkit-scrollbar {
+        display: none; /* Chrome, Safari, Opera*/
+    }
+        .chats .more-block{
+            width: 100%;
+            height: 30px;
+            background: rgba(229, 150, 15, 0.8);
+            opacity: 0.9;
+            border-radius: 10px;
+
+            position: absolute;
+            top: -30px;
+            transition: 1s;
+
+            font-size: var(--font-mb-md);
+            color: #fff;
+            text-align: center;
+            line-height: 30px;
+            font-weight: bold;
+        }
+    /* CHAT */
+        .mine{
+            flex-flow: row-reverse;
+        }
+            .mine .chat-info-box{
+                flex-flow: row-reverse;
+            }
+            .mine .chat-content{
+                text-align: right;
+            }
+        .chats .chat{
+            width: 100%;
+            display: flex;
+            gap: 7px;
+        }
+            .chat > .chat-profile-box{
+                display: flex;
+                flex-direction: column;
+            }
+                .chat-profile-box .chat-profile{
+                    width: 32px;
+                    height: 32px;
+                    object-fit: cover;
+
+                    display: block;
+                    border-radius: 5px;
+                    border: 1px solid #e9e9e9;
+                }
+                .chat-profile-box .chat-dummy{
+                    flex-grow: 1;
+                }
+            .chat > .chat-content-box{
+                
+            }
+                .chat-content-box .chat-info-box{
+                    display: flex;
+                    gap: 5px;
+
+                    align-items: flex-end;
+                    margin-bottom: 5px;
+                    
+                }
+                    .chat-info-box .chat-sender{
+                        font-weight: bold;
+                        font-size: var(--font-mb-md);
+                        color: #000;
+                    }
+                    .chat-info-box .chat-time{
+                        font-size: var(--font-mb-sm);
+                        color: gray;
+                    }
+                .chat-content-box .chat-content{
+                    /* word-break: break-all; */
+                    white-space: normal;
+                    word-wrap: break-word;
+
+                    line-height: 16px;
+                    font-size: var(--font-mb-md);
+                }
+
+    /* CHAT */
+
+    .room-box .chat-send-form{
+        margin: 0;
+        padding: 5px;
+        width: 100%;
+
+        display: flex;
+        gap: 5px;
+        justify-content: center;
+    }
+        .chat-send-form #chat-content{
+            outline: none;
+            border-radius: 10px;
+            border: 1px solid #797979;
+
+            height: 50px;
+            width: 80%;
+
+            padding: 10px;
+            resize: none;
+
+            font-family: 'Noto Sans KR', sans-serif !important;
+        }
+        .chat-send-form #btn-chat{
+            border-radius: 5px;
+            outline: none;
+            border: none;
+
+            background: rgb(182, 182, 182);
+            color: #fff;
+        }
+
+    /* MODAL */
+    .modal-btn-register{
+        background: var(--btn-confirm);
+    }
+    .modal-btn-drop{
+        background: var(--btn-delete);
+    }
+
+@media screen and (min-width: 700px){
+    /* ROOM CSS */
+.room-box{
+
+}
+
+    .room-box .chat-title{
+        font-size: var(--font-pc-lg);
+    }
+
+        .room-box .btn-subscribe{
+            height: var(--font-pc-lg);
+            width: var(--font-pc-lg);
+
+            margin-left: 5px;
+        }
+
+    .room-box .room-info{
+
+    }
+        .room-info .room-members,
+        .room-info .room-pin{
+            height: var(--font-pc-md);
+            width: var(--font-pc-md);
+        }
+        .room-info .room-members{
+
+        }
+        .room-info .room-members-count{
+            font-size: var(--font-pc-md);
+        }
+        .room-info .partition{
+            font-size: var(--font-pc-md);
+        }
+        .room-info .room-drop{
+            display: block;
+            text-indent: -999px;
+            overflow: hidden;
+            cursor: pointer;
+
+            height: 20px;
+            width: 20px;
+
+            background: url("/image/chat/drop.png") no-repeat center/contain;
+        }
+
+    .room-box .chats{
+        min-height: 500px;
+        max-height: 500px;
+
+        gap: 20px;
+    }
+        /* CHAT */
+        .chats .chat{
+
+        }
+        .chats .more-block{
+            font-size: var(--font-pc-md);            
+        }
+            .chat > .chat-profile-box{
+
+            }
+                .chat-profile-box .chat-profile{
+                    width: 40px;
+                    height: 40px;
+                }
+            .chat > .chat-content-box{
+                
+            }
+                .chat-content-box .chat-info-box{
+                    line-height: var(--font-pc-md);
+                }
+                    .chat-info-box .chat-sender{
+                        font-size: var(--font-pc-md);
+                    }
+                    .chat-info-box .chat-time{
+                        font-size: var(--font-pc-sm);
+                    }
+                .chat-content-box .chat-content{
+                    line-height: 18px;
+                    font-size: var(--font-pc-md);
+                }
+
+            /* CHAT */
+
+    .room-box .chat-send-form{
+        width: 100%;
+    }
+        .chat-send-form #chat-content{
+            height: 50px;
+            width: 80%;
+        }
+        .chat-send-form #btn-chat{
+
+        }
+}

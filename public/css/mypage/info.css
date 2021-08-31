@@ -1,0 +1,38 @@
+/* INFO CSS */
+
+.mp-box{
+    margin-top: 10px;
+    padding: 5px;
+    border-radius: 10px;
+    border: 1px solid #e9e9e9;
+
+}
+.mp-box > *{
+    margin-top: 30px;
+}
+.mp-box > :first-child{
+    margin-top: 0;
+}
+    .mp-box .mp-profile-box{
+        width: 100%;
+        height: 200px;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+        .mp-profile-box .mp-profile{
+            display: block;
+            background-image: url("/image/mypage/photo.png");
+            background-repeat: no-repeat;
+            background-size: contain;
+            height: 200px;
+            width: 200px;
+        }
+
+    .mp-box .btn-update{
+        
+    }
+@media screen and (min-width: 700px){
+
+}

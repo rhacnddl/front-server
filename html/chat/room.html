@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>I CHAT U | CHAT ROOM</title>
+
+    <!-- CSS -->
+    <link rel="shortcut icon" href="/image/favicon.ico">
+    <link href="/css/common/reset.css" rel="stylesheet" type="text/css">
+    <link href="/css/common/common.css" rel="stylesheet" type="text/css">
+    <link href="/css/common/header.css" rel="stylesheet" type="text/css">
+    <link href="/css/common/modal.css" rel="stylesheet" type="text/css">
+    <link href="/css/chat/room.css" rel="stylesheet" type="text/css">
+
+    <!-- SockJS Client, STOMP Client -->
+    <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+    <!-- Axios -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <!-- Firebase (Not FIREBASE Hosting)-->
+    <script src="https://www.gstatic.com/firebasejs/8.9.0/firebase.js"></script>
+    <!-- <script src="https://www.gstatic.com/firebasejs/8.9.0/firebase-app.js"></script> -->
+    <script src="https://www.gstatic.com/firebasejs/8.9.0/firebase-messaging.js"></script>
+    <!-- Snipet -->
+    <script type="module" defer src="/js/common/snipet.js"></script>
+    <!-- JS -->
+    <script src="/js/common/footer.js"></script>
+    <script src="/js/common/store.js"></script>
+    <script defer src="/js/common/modal.js"></script>
+    <script src="/js/chat/room.js"></script>
+</head>
+<body>
+    <header id="header">
+        <!-- Logo -->
+        <div class="hd-first-box">
+            <a href="/chat/rooms" class="hd-link">
+                <img src="/image/header/logo.png" class="hd-logo">
+            </a>
+            <!-- Search Bar -->
+            <!-- <div class="hd-search-box">
+                <input id="hd-search" type="text" class="hd-search-bar" placeholder="Search...">
+                <label for="hd-search" class="hd-btn-search">검색</span>
+            </div> -->
+        </div>
+        <!-- 로그인 X -->
+        <div class="hd-button-box">
+            <span class="hd-btn-login">LOGIN</span>
+            <span class="hd-btn-signup">SIGN UP</span>
+        </div>
+        <!-- 로그인 O -->
+        <div class="icon-box">
+            
+            <!-- Profile -->
+            <div class="profile-box">
+                <button class="hd-profile">프로필</button>
+                <div class="hd-profile-content hide">
+                    <!-- 프로필 간단 내역 -->
+
+                    <!-- 마이페이지 가기 -->
+
+                    <!-- 로그아웃 -->
+                </div>
+            </div>
+
+            <!-- Notification Bell -->
+            <div class="bell-box">
+                <span class="bell bell-off"></span>
+                <div class="toast toast-off"></div>
+                <div class="hide notification-box">
+
+                    <div class="top">
+                        <button class="btn-remove-all">확인된 알람 지우기</button>
+                        <button class="btn-check-all">전체 확인</button>
+                    </div>
+
+                    <div class="notifications scroll-custom">
+
+                    </div>
+
+                    <div class="bottom">
+                        <span class="btn-nt-more"></span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Menu -->
+            <div>
+                <button class="hd-menu">메뉴</button>
+            </div>
+        </div>
+    </header>
+    <div class="core-container">
+        <aside id="aside">
+
+        </aside>
+
+        <!-- MAIN & ASIDE -->
+
+        <main id="main">
+            <div class="room-box">
+
+                <h1 class="chat-title">
+                    <span>#</span>
+                    ROOM TITLE
+                    <span class="btn-subscribe sub-off" title="즐겨찾기">즐겨찾기</span>
+                </h1>
+
+                <div class="room-info">
+                    <div class="room-info-front">
+                        <span class="room-members" title="멤버 보기">인원</span>
+                        <span class="room-members-count">21</span>
+                        <label class="partition"> | </label>
+                        <span class="room-pin">고정메세지</span>
+                    </div>
+
+                    <div class="room-info-back">
+                        <span class="room-drop" title="채팅방 탈퇴">탈퇴</span>
+                    </div>
+                </div>
+
+                <div class="chats">
+                    <div class="more-block">이전 채팅을 불러옵니다...</div>
+<!--                     <div class="chat">
+                        <div class="chat-profile-box">
+                            <img src="/image/common/profile-wb.png" class="chat-profile">
+                            <div class="chat-dummy"></div>
+                        </div>
+
+                        <div class="chat-content-box">
+                            <div class="chat-info-box">
+                                <div class="chat-sender">
+                                    NICKNAME
+                                </div>
+                                <div class="chat-time">
+                                    23분 전
+                                </div>
+                            </div>
+
+                            <div class="chat-content">
+                                    Lorem ipsum dolor sit amet, 
+                                    consectetur adipiscing elit. 
+                                    Pellentesque euismod mauris venenatis,
+                                    egestas ligula vel, hendrerit purus. 
+                                    Sed varius erat quam, vitae aliquam dolor mattis ac. 
+                                    Sed id ligula sit amet mauris pretium volutpat condimentum id lectus. 
+                                    Aenean eleifend semper bibendum. 
+                                    Ut dolor ipsum, faucibus non massa vel, 
+                                    imperdiet vulputate orci. 
+                                    Integer hendrerit dolor id risus placerat, 
+                                    sed ullamcorper ex pretium. Nunc porta nibh sem, 
+                                    in semper sapien bibendum id. Nulla faucibus libero dolor, 
+                                    ac commodo odio viverra ut. Morbi vitae semper magna, sit amet tempus magna. 
+                                    Phasellus condimentum sem nibh, in pretium arcu pulvinar in. Aenean et egestas nibh. 
+                                    Pellentesque fringilla mi in facilisis bibendum.
+                            </div>
+                        </div>
+                    </div> -->
+
+                </div>
+    
+                <form class="chat-send-form">
+                    <textarea id="chat-content" placeholder="Message #"></textarea>
+                    <input type="submit" value="Send" id="btn-chat">
+                </form>
+
+            </div>
+        </main>
+    </div>
+
+    <footer id="footer">
+        <div class="ft-link-box">
+            <!-- Blog -->
+            <span class="ft-blog" title="Blog">blog</span>
+            <span style="font-size: 13px;text-align: center;line-height: 24px;">|</span>
+            <!-- Github -->
+            <span class="ft-github" title="Github">github</span>
+            <!-- ? -->
+        </div>
+        <div class="ft-info-box">
+            <div class="ft-info">
+                <div>대표자 : 김지호</div>
+                <div>이메일: jiho519@naver.com</div>
+                <div>주소: 서울시 OO구 OO길 371 xxxx동 xxx호</div>
+            </div>
+            <div class="ft-right">
+                ©I CHAT U. ALL RIGHTS RESERVED
+            </div>
+        </div>
+    </footer>
+
+<!-- Modal -->
+<div class="modal-canvas w-100 h-100 hide">
+
+    <div class="modal w-100 h-40">
+        <div class="modal-hd">
+            <div class="modal-title">
+                CHAT ROOM DROP
+            </div>
+        </div>
+    
+        <div class="modal-body">
+            채팅방을 탈퇴하시겠습니까?
+        </div>
+    
+        <div class="modal-ft">
+            <button class="modal-btn-register">REGISTER</button>
+            <button class="modal-btn-drop">DROP</button>
+            <button class="modal-btn-cancel">CANCEL</button>
+        </div>
+    </div>
+
+</div>
+</body>
+</html>

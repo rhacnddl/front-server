@@ -1,0 +1,111 @@
+/* ROOMS CSS */
+.rooms-box{
+    padding: 5px;
+    
+}
+    .rooms-box > *{
+        margin-bottom: 10px;
+    }
+    .rooms-box > :last-child{
+        margin-bottom: 0;
+    }
+    .rooms-box .rooms-btn-box{
+        display: flex;
+        justify-content: flex-end;
+    }
+        .rooms-btn-box .btn-create-room{
+            cursor: pointer;
+            background-color: var(--btn-confirm);
+            padding: 7px 15px;
+            color: #fff;
+            font-size: var(--font-mb-md);
+            border: none;
+            border-radius: 5px;
+            outline: none;
+        }
+    
+    .rooms-box .rooms{
+        border: 1px solid #797979;
+        border-radius: 3px;
+
+        padding: 5px;
+
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+
+        overflow: hidden;
+    }
+        .rooms .room{
+            display: flex;
+            gap: 5px;
+
+            padding: 5px;
+
+            border: 1px solid #000;
+            border-radius: 5px;
+        }
+            .room .room-profile{
+                display: block;
+                height: 46px;
+                width: 46px;
+                object-fit: contain;
+                border-radius: 10px;
+            }
+            .room .room-info{
+                flex-grow: 1;
+
+                display: flex;
+                flex-direction: column;
+                gap: 5px;
+
+                overflow: hidden;
+            }
+                .top-box{
+                    display: flex;
+                    justify-content: space-between;
+                    flex-grow: 1;
+
+                    
+                }
+                .top-box .room-name{
+                    font-size: var(--font-mb-lg);
+                    font-weight: bold;
+
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
+                    overflow: hidden;
+                }
+                .top-box .room-date{
+                    font-size: var(--font-mb-sm);
+                    color: #a0a0a0;
+                }
+                .bottom-box{
+                    flex-grow: 1;
+                    font-size: var(--font-mb-md);
+                    color: #a0a0a0;
+                }
+
+
+    /* ROOMS MODAL */
+    .modal .modal-btn-confirm{
+        background: var(--btn-confirm);
+    }
+    .modal .modal-btn-create{
+        background: var(--btn-create);
+    }
+    .modal input[name="modal-room-name"]{
+        border: none;
+        outline: none;
+        padding: 10px 0;
+        width: 100%;
+        text-indent: 10px;
+        border-radius: 5px;
+
+        background: #e9e9e9;
+    }
+
+@media screen and (min-width: 700px){
+
+    /* ROOMS CSS */
+}
