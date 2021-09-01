@@ -2,7 +2,7 @@ window.addEventListener('load', () => {
 
     //const origin = 'http://localhost:8080';
     //const origin = 'https://ichatu.ga';
-    const url = `${origin}/stomp/chat`;
+    const url = `${origin}/api/stomp/chat`;
 
     const param = new URLSearchParams(location.search);
     const chatRoomId = param.get("id");
