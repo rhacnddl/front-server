@@ -26,10 +26,19 @@ let page = 1;
 
     list.forEach((room, idx) => {
         console.log(room);
+
+        const roomProfileId = room.profileId;
+        const roomProfileName = room.profileName;
+        const roomProfilePath = room.profilePath;
+
+        let roomProfile = roomProfileId?
+            `/upload${roomProfilePath}/${roomProfileId}_${roomProfileName}`
+            : `/image/common/profile.png`;
+
         html += `
                     <div class="room">
 
-                    <img src="/image/common/profile.png" class="room-profile">
+                    <img src="${roomProfile}" class="room-profile">
                         
                     <div class="room-info">
                         <div class="top-box">
@@ -86,10 +95,14 @@ btnCreate.addEventListener('click', async (e) => {
         }
     });
 
+    let myProfile = sessionProfileId?
+        `/upload${sessionProfilePath}/${sessionProfileId}_${sessionProfileName}`
+        : `/image/common/profile.png`;
+
     const html = `
                     <div class="room">
 
-                    <img src="/image/common/profile.png" class="room-profile">
+                    <img src="${myProfile}" class="room-profile">
                         
                     <div class="room-info">
                         <div class="top-box">

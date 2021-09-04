@@ -20,6 +20,14 @@ const hdProfile = header.querySelector('.hd-profile');
 const hdBtnLogin = header.querySelector('.hd-btn-login');
 const hdBtnSignup = header.querySelector('.hd-btn-signup');
 
+/* hd-profile-content */
+const hdProfileContent = header.querySelector('.hd-profile-content');
+const hdProfileIcon = hdProfileContent.querySelector('.hd-profile-icon');
+const hdProfileLastLogin = hdProfileContent.querySelector('.hd-profile-last-login');
+const hdProfileNickname = hdProfileContent.querySelector('.hd-profile-nickname');
+const hdProfileToMypage = hdProfileContent.querySelector('.hd-profile-to-mypage');
+const hdProfileToLogout = hdProfileContent.querySelector('.hd-profile-to-logout');
+
 const aside = document.querySelector('#aside');
 
 let asideFlag = false;
@@ -102,6 +110,58 @@ export const hideToast = () => {
     const headerSrc = `url("/upload${sessionProfilePath}/${sessionProfileId}_${sessionProfileName}")`;
     hdProfile.style.backgroundImage = headerSrc;
 })();
+
+/* Header Profile Content (Box) */
+/* 마우스 커서 enter/leave에 따라 박스 보여짐/숨겨짐 */
+let hdProfileContentFlag = false;
+hdProfile.addEventListener('click', (e) => {
+    if(!hdProfileContentFlag){
+        hdProfileContent.classList.remove('hide');
+    }
+    else{
+        hdProfileContent.classList.add('hide');
+    }
+    hdProfileContentFlag = !hdProfileContentFlag;
+});
+hdProfile.addEventListener('mouseover', (e) => hdProfileContent.classList.remove('hide'));
+hdProfile.addEventListener('mouseout', (e) => hdProfileContent.classList.add('hide'));
+hdProfileContent.addEventListener('mouseover', (e) => hdProfileContent.classList.remove('hide'));
+hdProfileContent.addEventListener('mouseout', (e) => hdProfileContent.classList.add('hide'));
+
+(() => {
+    if(!sessionProfileId) return;
+
+    const iconSrc = `/upload${sessionProfilePath}/${sessionProfileId}_${sessionProfileName}`;
+    hdProfileIcon.src = iconSrc;
+})();
+(() => {
+    if(!sessionNickname) return;
+    hdProfileNickname.innerText = sessionNickname;
+})();
+(() => {
+    if(!sessionLoginDate) return;
+    hdProfileLastLogin.innerText = `로그인 한 지 : ${displayedAt(sessionLoginDate)}`;
+})();
+
+/* text Click 시 */
+hdProfileToLogout.addEventListener('click', (e) => {
+    console.log('logout');
+    axios({
+        url: `${origin}/api/v1/logout`,
+        method: 'POST',
+        headers: {'content-type' : 'application/json'},
+        data: {
+            id: sessionMemberId,
+            nickname: sessionNickname
+        }
+    }).then((response) => {
+        if(response.data === 'success'){
+            sessionStorage.clear();
+            location = `/login`;
+        }
+    }).catch(err => console.log(err));
+});
+hdProfileToMypage.addEventListener('click', (e) => location = `/mypage/info`);
 
 /* ASIDE */
 /* MOBILE에서 MENU CLICK -> ASIDE SHOW + 화면 resize 시*/
@@ -324,3 +384,35 @@ hdBtnSignup.addEventListener('click', (e) => {
     e.preventDefault();
     location = `/signup`;
 });
+
+/* N초전 N분전 N시간전 N일전 ... */
+function displayedAt(createdAt) {
+    const milliSeconds = new Date() - new Date(createdAt);
+    const seconds = milliSeconds / 1000;
+
+    if (seconds < 60) return `방금 전`;
+
+    const minutes = seconds / 60;
+
+    if (minutes < 60) return `${Math.floor(minutes)}분 전`;
+
+    const hours = minutes / 60;
+
+    if (hours < 24) return `${Math.floor(hours)}시간 전`;
+
+    const days = hours / 24;
+
+    if (days < 7) return `${Math.floor(days)}일 전`;
+
+    const weeks = days / 7;
+
+    if (weeks < 5) return `${Math.floor(weeks)}주 전`;
+
+    const months = days / 30;
+
+    if (months < 12) return `${Math.floor(months)}개월 전`;
+
+    const years = days / 365;
+
+    return `${Math.floor(years)}년 전`;
+}

@@ -1,7 +1,5 @@
 window.addEventListener('load', () => {
 
-    //const origin = 'http://localhost:8080';
-    //const origin = 'https://ichatu.ga';
     const url = `${origin}/api/stomp/chat`;
 
     const param = new URLSearchParams(location.search);
@@ -48,7 +46,6 @@ window.addEventListener('load', () => {
             }
             
             //const className = d.memberId == memberId ? 'mine' : 'yours';
-
             const profileSrc = (d.profileId != 'null')? `/upload${d.profilePath}/${d.profileId}_${d.profileName}`
                                              : '/image/common/profile-wb.png';
 
@@ -76,6 +73,11 @@ window.addEventListener('load', () => {
                 </div>`;
 
             chats.insertAdjacentHTML('beforeend', html);
+
+            /* 내가 채팅을 친다면 화면은 맨 아래로 이동 */
+            if(d.memberId == memberId){
+                scrollToDown();
+            }
         });
 
     });
@@ -103,6 +105,7 @@ window.addEventListener('load', () => {
             profileName: profileName,
             profilePath: profilePath
         }));
+
     });
 
     /* 
@@ -146,7 +149,7 @@ window.addEventListener('load', () => {
             method: 'GET'
         })
         .then(response => response.data);
-
+        
         appendChats(chatList);
         
         if(page == 1)
@@ -198,7 +201,9 @@ window.addEventListener('load', () => {
 
     loadChats();
 
-    function scrollToDown() {chats.scrollTop = chats.scrollHeight;}
+    function scrollToDown() {
+        chats.scrollTop = chats.scrollHeight;
+    }
     function showMoreBlock() {
         setTimeout( () => {
             moreBlock.style.top = '0';

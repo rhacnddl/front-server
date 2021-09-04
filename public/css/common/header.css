@@ -201,7 +201,7 @@
             .notifications .nt-profile{
                 height: 35px;
                 width: 35px;
-                object-fit: contain;
+                object-fit: cover;
                 border-radius: 50%;
                 border: 1px solid #e9e9e9;
             }
@@ -233,7 +233,7 @@
                 background: url("/image/common/more-on.png") no-repeat center/contain;
             }
     #header .profile-box{
-
+        position: relative;
     }
     /* Header -> profile */
     #header .hd-profile{
@@ -245,7 +245,7 @@
 
         /* background: url("/image/common/profile.png") no-repeat center/contain; */
         background-image: url("/image/common/profile.png");
-        background-size: contain;
+        background-size: cover;
         background-repeat: no-repeat;
         background-position-x: center;
         background-position-y: center;
@@ -255,6 +255,88 @@
         border-radius: 50%;
         cursor: pointer;
     }
+        .profile-box .hd-profile-content{
+            background-color: #fff;
+            position: absolute;
+            top: 27px;
+            right: 0;
+
+            width: 150px;
+            height: 200px;
+
+            border: 1px solid #797979;
+            border-radius: 10px;
+
+            display: flex;
+            flex-direction: column;
+            
+
+            align-items: center;
+        }
+        .hd-profile-content > *{
+            border-bottom: 1px solid #797979;
+        }
+        .hd-profile-content :last-child{
+            border-bottom: none;
+        }
+            .hd-profile-content .hd-profile-icon-box{
+                flex-grow: 1;
+                width: 100%;
+                height: 100%;
+
+                padding: 5px;
+
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                border-bottom: none;
+            }
+                .hd-profile-icon-box .hd-profile-icon{
+                    width: 80px;
+                    height: 80px;
+                    
+                    object-fit: cover;
+                    
+                    border-radius: 50%;
+                    border: 1px solid #797979;
+                    
+                }
+            .hd-profile-content .hd-profile-last-login{
+                color: #aaaaaa;
+                font-size: var(--font-mb-sm);
+                text-align: center;
+                width: 100%;
+                height: 20px;
+                line-height: 20px;
+            }
+            .hd-profile-content .hd-profile-text{
+                width: 100%;
+                height: 30px;
+                line-height: 30px;
+                text-align: center;
+                font-size: var(--font-mb-md);
+
+                cursor: pointer;
+                font-weight: bold;
+            }
+            .hd-profile-content .hd-profile-text:hover{
+                color: rgb(78, 49, 204);
+            }
+            .hd-profile-content .hd-profile-nickname{
+                width: 100%;
+                height: 30px;
+                line-height: 30px;
+                text-align: center;
+                font-size: var(--font-mb-md);
+
+                font-weight: bold;
+            }
+            .hd-profile-content .hd-profile-to-mypage{
+                
+            }
+            .hd-profile-content .hd-profile-to-logout{
+                
+            }
     /* Header -> menu */
     #header .hd-menu{
         height: 20px;
@@ -368,6 +450,37 @@
         height: 32px;
         width: 32px;
     }
+    .profile-box .hd-profile-content{
+        width: 180px;
+        height: 230px;
+    }
+        .hd-profile-content .hd-profile-icon-box{
+            flex-grow: 1;
+            width: 100%;
+            height: 100%;
+        }
+            .hd-profile-icon-box .hd-profile-icon{
+                width: 90px;
+                height: 90px;
+            }
+            .hd-profile-content .hd-profile-last-login{
+                font-size: var(--font-pc-sm);
+                height: 25px;
+                line-height: 25px;
+            }
+        .hd-profile-content .hd-profile-text{
+            height: 35px;
+            line-height: 35px;
+            font-size: var(--font-pc-md);
+        }
+        .hd-profile-content .hd-profile-text:hover{
+            color: rgb(78, 49, 204);
+        }
+        .hd-profile-content .hd-profile-nickname{
+            height: 35px;
+            line-height: 35px;
+            font-size: var(--font-pc-md);
+        }
     /* Header -> menu */
     #header .hd-menu{
         display: none;

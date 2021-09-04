@@ -1,0 +1,7 @@
+Express Server is running through PORT : 3000
+GET /login
+GET /rooms
+GET /room
+GET /login
+GET /rooms
+GET /room

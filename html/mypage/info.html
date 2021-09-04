@@ -12,6 +12,7 @@
         <link href="/css/common/common.css" rel="stylesheet" type="text/css">
         <link href="/css/common/header.css" rel="stylesheet" type="text/css">
         <link href="/css/common/modal.css" rel="stylesheet" type="text/css">
+        <link href="/css/common/aside.css" rel="stylesheet" type="text/css">
         <link href="/css/mypage/info.css" rel="stylesheet" type="text/css">
     
         <!-- Axios -->
@@ -55,10 +56,23 @@
                 <button class="hd-profile">프로필</button>
                 <div class="hd-profile-content hide">
                     <!-- 프로필 간단 내역 -->
-
+                    <div class="hd-profile-icon-box">
+                        <img class="hd-profile-icon" src="/image/common/user.png">
+                    </div>
+                    <div class="hd-profile-last-login">
+                        마지막 로그인 : 방금 전
+                    </div>
+                    <div class="hd-profile-nickname">
+                        gorany
+                    </div>
                     <!-- 마이페이지 가기 -->
-
+                    <div class="hd-profile-to-mypage hd-profile-text">
+                        Mypage
+                    </div>
                     <!-- 로그아웃 -->
+                    <div class="hd-profile-to-logout hd-profile-text">
+                        Logout
+                    </div>
                 </div>
             </div>
 
@@ -91,6 +105,55 @@
     </header>
     <div class="core-container">
         <aside id="aside">
+
+            <div class="as-my-rooms">
+                <div class="my-title">
+                    MY ROOMS
+                </div>
+
+                <div class="my-rooms">
+
+                    <div class="my-room">
+
+                        <img src="/image/common/profile.png" class="my-room-profile">
+                            
+                        <div class="my-room-info">
+                            <div class="top-box">
+                                <div class="my-room-name">
+                                    <a data-rid="-1" href="room?id=-1">CHAT ROOM TITLE</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="my-room">
+
+                        <img src="/image/common/profile.png" class="my-room-profile">
+                            
+                        <div class="my-room-info">
+                            <div class="top-box">
+                                <div class="my-room-name">
+                                    <a data-rid="-1" href="room?id=-1">CHAT ROOM TITLE</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="my-room">
+
+                        <img src="/image/common/profile.png" class="my-room-profile">
+                            
+                        <div class="my-room-info">
+                            <div class="top-box">
+                                <div class="my-room-name">
+                                    <a data-rid="-1" href="room?id=-1">CHAT ROOM TITLE</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
 
         </aside>
         <!-- MAIN & ASIDE -->
