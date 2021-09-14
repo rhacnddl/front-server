@@ -28,7 +28,9 @@ const hdProfileNickname = hdProfileContent.querySelector('.hd-profile-nickname')
 const hdProfileToMypage = hdProfileContent.querySelector('.hd-profile-to-mypage');
 const hdProfileToLogout = hdProfileContent.querySelector('.hd-profile-to-logout');
 
+/* ASIDE */
 const aside = document.querySelector('#aside');
+const myrooms = aside.querySelector('.my-rooms');
 
 let asideFlag = false;
 let notificationBoxFlag = false; //false : 알림 박스 닫힘, true : 알림 박스 열림
@@ -129,7 +131,7 @@ hdProfileContent.addEventListener('mouseover', (e) => hdProfileContent.classList
 hdProfileContent.addEventListener('mouseout', (e) => hdProfileContent.classList.add('hide'));
 
 (() => {
-    if(!sessionProfileId) return;
+    if(!sessionProfileId || sessionProfileId == null) return;
 
     const iconSrc = `/upload${sessionProfilePath}/${sessionProfileId}_${sessionProfileName}`;
     hdProfileIcon.src = iconSrc;
@@ -222,6 +224,77 @@ function hideBlackScreen(){
     blackScreen.remove();
 }
 /* MOBILE에서 MENU CLICK -> ASIDE SHOW + 화면 resize 시*/
+
+/* 내가 가입한 채팅방 목록 조회 -> ASIDE MY ROOMS에 넣기 */
+(() => {
+    axios({
+        url: `${origin}/api/v1/rooms/member/${sessionMemberId}`,
+        method: 'GET',
+    })
+    .then(response => response.data)
+    .then(data => {
+
+        if(data.length <= 0) return;
+
+        let html = ``;
+
+        data.forEach((cr) => {
+            console.log(cr);
+            const chatRoomProfile = cr.profileId? `/upload${cr.profilePath}/${cr.profileId}_${cr.profileName}` : '/image/common/profile.png';
+            const chatContent = cr.content? cr.content : '';
+            const chatDate = cr.contentRegDate? cr.contentRegDate : '';
+            let chatCount = cr.cnt? cr.cnt : '';
+            const chatCountClass = parseInt(cr.cnt) > 0? '' : 'my-room-count-none';
+            if(parseInt(chatCount) > 9){
+                console.log('adaw')
+                chatCount = '9+';
+            }
+
+            html += `
+        <div data-rid="${cr.id}" class="my-room">
+
+            <img src="${chatRoomProfile}" class="my-room-profile">
+                
+            <div class="my-room-info">
+                <div class="top-box as-top-box">
+                    <div class="my-room-name">
+                        <a data-rid="${cr.id}" href="room?id=${cr.id}">${cr.name}</a>
+                    </div>
+                    <div class="my-room-chat-box">
+                        <div class="my-room-chat">
+                        ${chatContent}
+                        </div>
+                        <div class="my-room-chat-date">
+                        ${displayedAt(chatDate)}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="my-room-count ${chatCountClass}">
+                ${chatCount}
+            </div>
+        </div>
+            `;
+        });
+
+        myrooms.insertAdjacentHTML('beforeend', html);
+    })
+    .catch(err => console.err(`Exception Occured. -> `, err));
+})();
+/* 내가 가입한 채팅방 목록 조회 -> ASIDE MY ROOMS에 넣기 */
+
+/* 채팅방 입장 시 알림 모두 확인 */
+myrooms.addEventListener('click', (e) => {
+
+    if(e.target.tagName !== 'A') return;
+    e.preventDefault();
+
+    const chatRoomId = e.target.dataset.rid;
+
+    checkAllNotificationsByChatRoomAndMember(rid, sessionMemberId);
+});
+
 /* ASIDE */
 
 let defaultSentence = '';
@@ -385,8 +458,22 @@ hdBtnSignup.addEventListener('click', (e) => {
     location = `/signup`;
 });
 
+/* Function : 채팅방 입장 -> 그 채팅방의 알림 다 확인처리 */
+async function checkAllNotificationsByChatRoomAndMember(chatRoomId, memberId){
+
+    const count = await axios({
+        url: `${origin}/api/v1/notifications/room/${chatRoomId}/member/${memberId}`,
+        method : 'PUT'
+    })
+    .then(response => response.data);
+
+    console.log(count);
+}
+
 /* N초전 N분전 N시간전 N일전 ... */
 function displayedAt(createdAt) {
+    if(!createdAt) return '';
+
     const milliSeconds = new Date() - new Date(createdAt);
     const seconds = milliSeconds / 1000;
 

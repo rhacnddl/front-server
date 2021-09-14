@@ -48,6 +48,59 @@
                 object-fit: cover;
                 border-radius: 10px;
             }
+            .my-room .my-room-info{
+                overflow: hidden;
+                flex-grow: 1;
+            }
+            .my-room .as-top-box{
+                flex-direction: column;
+                height: 100%;
+                justify-content: space-around;
+                display: flex;
+            }
+                .as-top-box .my-room-name{
+                    text-overflow: ellipsis;
+                    overflow: hidden;
+                    white-space: nowrap;
+                }
+                .my-room-info .my-room-chat-box{
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                }
+                .as-top-box .my-room-chat{
+                    font-size: var(--font-mb-sm);
+                    color: gray;
+
+                    text-overflow: ellipsis;
+                    overflow: hidden;
+                    white-space: nowrap;
+                }
+                .as-top-box .my-room-chat-date{
+                    font-size: var(--font-mb-sm);
+                    color: gray;
+
+                    white-space: nowrap;
+                    
+                }
+            .my-room .my-room-count{
+                display: flex;
+                align-self: center;
+                border-radius: 50%;
+                background-color: rgb(252, 168, 58);
+                color: #fff;
+
+                line-height: 14px;
+                justify-content: center;
+
+                height: 14px;
+                width: 14px;
+
+                font-size: var(--font-mb-sm);
+            }
+            .my-room-count-none{
+                background-color: #fff !important;
+            }
 /* #aisde .as-region-rooms{
 
 }
@@ -60,4 +113,27 @@
 
 @media screen and (min-width: 700px){
 
+    .as-my-rooms .my-title{
+        font-size: var(--font-pc-lg);
+        font-weight: 800;
+    }
+            .my-room .my-room-profile{
+                height: 46px;
+                width: 46px;
+
+                object-fit: cover;
+                border-radius: 10px;
+            }
+                .as-top-box .my-room-chat{
+                    font-size: var(--font-pc-sm);
+                }
+                .as-top-box .my-room-chat-date{
+                    font-size: var(--font-mb-sm);
+                    
+                }
+            .my-room .my-room-count{
+                height: 16px;
+                width: 16px;
+                line-height: 16px;
+            }
 }
