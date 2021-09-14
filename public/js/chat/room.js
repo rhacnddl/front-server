@@ -11,20 +11,46 @@ window.addEventListener('load', () => {
     const profileName = sessionProfileName;
     const profilePath = sessionProfilePath;
 
-    const chats = document.querySelector('.chats');
-    const moreBlock = chats.querySelector('.more-block');
-    const messageContent = document.querySelector('#chat-content');
-    const btnSend = document.querySelector('#btn-chat');
-    const roomDrop = document.querySelector('.room-drop');
+    const roomBox = document.querySelector('.room-box');
+    const chatTitleVal = roomBox.querySelector('.chat-title-val');
+    const chats = roomBox.querySelector('.chats');
+    const moreBlock = roomBox.querySelector('.more-block');
+    const messageContent = roomBox.querySelector('#chat-content');
+    const btnSend = roomBox.querySelector('#btn-chat');
+    const roomDrop = roomBox.querySelector('.room-drop');
+    const roomBreak = roomBox.querySelector('.room-break');
 
     let page = 1;
 
     /* MODAL */
+    const modalTitle = modal.querySelector('.modal-title');
+    const modalBody = modal.querySelector('.modal-body');
     const btnRegister = modal.querySelector('.modal-btn-register');
     const btnDrop = modal.querySelector('.modal-btn-drop');
+    const btnClose = modal.querySelector('.modal-btn-close');
 
     const sockJS = new SockJS(`${url}`);
     const stomp = Stomp.over(sockJS);
+
+    /* LOAD시, 채팅방 정보 불러오기 */
+    (async () => {
+        const chatRoom = await axios({
+            url: `${origin}/api/v1/rooms/${chatRoomId}`,
+            method: `GET`
+        })
+        .then(response => response.data);
+        console.log(chatRoom)
+        chatTitleVal.innerText = chatRoom.name;
+        
+        if(chatRoom.memberId == memberId){//채팅방 주인
+            roomBreak.classList.remove('hide');
+            roomDrop.classList.add('hide');
+        }
+        else{//채팅방 객원
+            roomBreak.classList.add('hide');
+            roomDrop.classList.remove('hide');
+        }
+    })();
 
     stomp.connect({}, function (frame) { //just stomp
 
@@ -128,12 +154,17 @@ window.addEventListener('load', () => {
     /* 채팅방 탈퇴 CLICK */
     roomDrop.addEventListener('click', (e) => {
 
+        btnClose.classList.add('hide');
         btnRegister.classList.add('hide');
         btnDrop.classList.remove('hide');
+
+        modalTitle.innerText = 'CHAT ROOM DROP';
+        modalBody.innerText = `채팅방을 탈퇴하시겠습니까?`;
+
         modalCanvas.classList.toggle('hide');
-    
     });
 
+    /* 스크롤 이벤트 -> 채팅 불러오기 */
     chats.addEventListener('scroll', (e) => {
 
         if(chats.scrollTop !== 0) return;
@@ -214,7 +245,39 @@ window.addEventListener('load', () => {
         });
     }
 
+    /* 채팅방 삭제 (주인만 가능) */
+    roomBreak.addEventListener('click', (e) => {
+
+        btnClose.classList.remove('hide');
+        btnRegister.classList.add('hide');
+        btnDrop.classList.add('hide');
+
+        modalTitle.innerText = 'CHAT ROOM CLOSE';
+        modalBody.innerText = `채팅방을 닫으시겠습니까?`;
+
+        modalCanvas.classList.toggle('hide');
+    });
+
     /* MODAL */
+    /* 채팅방 페쇄 LOGIC */
+    btnClose.addEventListener('click', async (e) => {
+        const result = await axios({
+            url: `${origin}/api/v1/rooms/${chatRoomId}/member/${memberId}`,
+            method: `DELETE`,
+        })
+        .then(response => response.data)
+        .then(data => {
+
+            modalCanvas.classList.toggle('hide');
+
+            if(parseInt(data) > 0)
+                location = `/chat/rooms`;
+            else
+                alert('Error Occured..!');
+        });
+
+
+    });
     /* 채팅방 탈퇴 LOGIC */
     btnDrop.addEventListener('click', (e) => {
 

@@ -15,7 +15,7 @@ const btnCreate = modal.querySelector('.modal-btn-create');
 let page = 1;
 
 /* request for list */
-/* 얘가 성능이 안나온다!! */
+/* 얘가 성능이 안나온다!!? */
 (async () => {
     const list = await axios({
         url: `${origin}/api/v1/rooms/${sessionRegionId}/list/${page}`,
@@ -190,28 +190,6 @@ btnConfirm.addEventListener('click', (e) => {
         }
     });
 
-});
-
-
-//임시 로직 (반드시 지울 것)#########################################################################
-const btnLogout = document.querySelector('.btn-logout');
-btnLogout.addEventListener('click', (e) => {
-    e.preventDefault();
-
-    axios({
-        url: `${origin}/api/v1/logout`,
-        method: 'POST',
-        headers: {'content-type' : 'application/json'},
-        data: {
-            id: sessionMemberId,
-            nickname: sessionNickname
-        }
-    }).then((response) => {
-        if(response.data === 'success'){
-            sessionStorage.clear();
-            location = `/login`;
-        }
-    }).catch(err => console.log(err));
 });
 
 function convertDate(d){

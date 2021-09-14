@@ -22,6 +22,7 @@ firebase.initializeApp(firebaseConfig);
 
 const messaging = firebase.messaging();
 
+/* Work in ServiceWorker */
 messaging.onBackgroundMessage((payload) => {
     console.log('ServiceWorekr Received Message => ', payload);
 

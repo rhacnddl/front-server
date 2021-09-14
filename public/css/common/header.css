@@ -114,6 +114,14 @@
         opacity: 1;
         z-index: 15;
     }
+    .toast .toast-profile{
+        width: 30px;
+        height: 30px;
+        object-fit: cover;
+        border-radius: 50%;
+
+        margin-right: 5px;
+    }
     /* Notification Box */
     .notification-box{
         z-index: 10;

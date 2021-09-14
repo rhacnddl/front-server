@@ -43,7 +43,7 @@ export const addNotification = (data) => {
     const ntProfile = data.senderProfileId? `/upload/${data.senderProfilePath}/${data.senderProfileId}_${data.senderProfileName}` : `/image/common/mini.png`;
     const ntBody = type === 'chat'? `${data.sender}님이 메세지를 보냈습니다.` : `${data.sender}님이 댓글을 남겼습니다.`;
 
-    const html = `<a href="${destination}">
+    const html = `<a data-rid="${data.targetId}" href="${destination}">
                 <div class="notification notification-on">
                     <div class="nt-profile-box"><img src="${ntProfile}" class="nt-profile"></div>
                     <div class="nt-body">${ntBody}</div>
@@ -62,8 +62,10 @@ export const offBell = () => {
     bell.classList.remove('bell-on');
 }
 export const showToast = (data) => {
+    
+    const toastProfileSrc = data.senderProfileId? `/upload${data.senderProfilePath}/${data.senderProfileId}_${data.senderProfileName}` : `/image/common/profile-wb.png`;
     const content = data.type === 'chat'? '님이 메세지를 보냈습니다.': '님이 댓글을 남겼습니다.';
-    toast.innerHTML = `<b>${data.sender}</b>${content}`;
+    toast.innerHTML = `<img class="toast-profile" src="${toastProfileSrc}"><b>${data.sender}</b>${content}`;
 
     toast.classList.remove('toast-off');
     toast.classList.add('toast-on');
@@ -113,7 +115,7 @@ export const hideToast = () => {
     hdProfile.style.backgroundImage = headerSrc;
 })();
 
-/* Header Profile Content (Box) */
+/* Header Profile Content (Box) 헤더 프로필!!! */
 /* 마우스 커서 enter/leave에 따라 박스 보여짐/숨겨짐 */
 let hdProfileContentFlag = false;
 hdProfile.addEventListener('click', (e) => {
@@ -131,9 +133,8 @@ hdProfileContent.addEventListener('mouseover', (e) => hdProfileContent.classList
 hdProfileContent.addEventListener('mouseout', (e) => hdProfileContent.classList.add('hide'));
 
 (() => {
-    if(!sessionProfileId || sessionProfileId == null) return;
-
-    const iconSrc = `/upload${sessionProfilePath}/${sessionProfileId}_${sessionProfileName}`;
+    const iconSrc = sessionProfileId != 'null'? `/upload${sessionProfilePath}/${sessionProfileId}_${sessionProfileName}` : `/image/common/profile.png`;
+    
     hdProfileIcon.src = iconSrc;
 })();
 (() => {
@@ -164,6 +165,16 @@ hdProfileToLogout.addEventListener('click', (e) => {
     }).catch(err => console.log(err));
 });
 hdProfileToMypage.addEventListener('click', (e) => location = `/mypage/info`);
+
+/* 알림 박스에서 알림 클릭 -> 링크 이동 + 그 채팅방의 알림 쌓인거 확인 처리 */
+notifications.addEventListener('click', (e) => {
+
+    if(e.target.tagName !== 'A') return;
+
+    e.preventDefault();
+    const chatRoomId = e.target.dataset.rid;
+    checkAllNotificationsByChatRoomAndMember(chatRoomId, sessionMemberId);
+});
 
 /* ASIDE */
 /* MOBILE에서 MENU CLICK -> ASIDE SHOW + 화면 resize 시*/
@@ -239,14 +250,15 @@ function hideBlackScreen(){
         let html = ``;
 
         data.forEach((cr) => {
-            console.log(cr);
+            
             const chatRoomProfile = cr.profileId? `/upload${cr.profilePath}/${cr.profileId}_${cr.profileName}` : '/image/common/profile.png';
             const chatContent = cr.content? cr.content : '';
             const chatDate = cr.contentRegDate? cr.contentRegDate : '';
+
+            /* 안읽은 채팅 개수 if 0? ->none else if 9~?-> 9+*/
             let chatCount = cr.cnt? cr.cnt : '';
             const chatCountClass = parseInt(cr.cnt) > 0? '' : 'my-room-count-none';
             if(parseInt(chatCount) > 9){
-                console.log('adaw')
                 chatCount = '9+';
             }
 
@@ -291,8 +303,11 @@ myrooms.addEventListener('click', (e) => {
     e.preventDefault();
 
     const chatRoomId = e.target.dataset.rid;
+    
 
-    checkAllNotificationsByChatRoomAndMember(rid, sessionMemberId);
+    checkAllNotificationsByChatRoomAndMember(chatRoomId, sessionMemberId);
+
+    location = e.target.href;
 });
 
 /* ASIDE */
@@ -309,8 +324,12 @@ notifications.addEventListener('click', async (e) => {
     const notificationId = e.target.dataset.ntid;
     const parentDiv = e.target.parentNode.parentNode;
     const href = e.target.parentNode.href;
+    const targetId = e.target.parentNode.dataset.rid;
 
-    await axios({
+    checkAllNotificationsByChatRoomAndMember(targetId, sessionMemberId);
+
+    location = href;
+    /* await axios({
         url: `${origin}/api/v1/notifications/${notificationId}/confirm`,
         method: 'POST'
     })
@@ -323,7 +342,7 @@ notifications.addEventListener('click', async (e) => {
             window.open(href);
         }
     })
-    .catch(err => console.log('알림 단건 확인 중 예외 : ', err));
+    .catch(err => console.log('알림 단건 확인 중 예외 : ', err)); */
 
 });
 
@@ -384,7 +403,7 @@ async function getNotificationList(parent, target, p){
             html += `
                     <div class="notification ${isConfirmed? 'notification-off' : 'notification-on'}">
                         <div class="nt-profile-box"><img src="${ntProfile}" class="nt-profile"></div>
-                        <a href="${destination}">
+                        <a data-rid="${data.targetId}" href="${destination}">
                             <div class="nt-body" data-ntid=${data.id}>${ntBody}</div>
                         </a>
                     </div>`;
@@ -466,8 +485,6 @@ async function checkAllNotificationsByChatRoomAndMember(chatRoomId, memberId){
         method : 'PUT'
     })
     .then(response => response.data);
-
-    console.log(count);
 }
 
 /* N초전 N분전 N시간전 N일전 ... */

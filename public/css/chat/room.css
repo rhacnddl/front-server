@@ -83,6 +83,17 @@
 
             background: url("/image/chat/drop.png") no-repeat center/contain;
         }
+        .room-info .room-break{
+            display: block;
+            text-indent: -999px;
+            overflow: hidden;
+            cursor: pointer;
+
+            height: 15px;
+            width: 15px;
+
+            background: url("/image/chat/trash.png") no-repeat center/contain;
+        }
 
     .room-box .chats{
         position: relative;
@@ -220,7 +231,8 @@
     .modal-btn-register{
         background: var(--btn-confirm);
     }
-    .modal-btn-drop{
+    .modal-btn-drop,
+    .modal-btn-break{
         background: var(--btn-delete);
     }
 
@@ -259,15 +271,12 @@
             font-size: var(--font-pc-md);
         }
         .room-info .room-drop{
-            display: block;
-            text-indent: -999px;
-            overflow: hidden;
-            cursor: pointer;
-
             height: 20px;
             width: 20px;
-
-            background: url("/image/chat/drop.png") no-repeat center/contain;
+        }
+        .room-info .room-break{
+            height: 20px;
+            width: 20px;
         }
 
     .room-box .chats{
