@@ -32,7 +32,17 @@
                 console.log("Service worker registration failed, error:"  , err );
             }); 
     } */
+    const param = new URLSearchParams(location.search);
+    const errorValue = param.get('error');
     const inputToken = document.querySelector('input[name="token"]');
+
+    if(errorValue === 'required'){
+        alert('로그인이 필요합니다.');
+    }
+    //이미 로그인 했으면 초기 화면으로 돌려보냄
+    if(sessionStorage.getItem('memberId')){
+        location = '/chat/rooms';
+    }
 
     var firebaseConfig = {
         apiKey: "AIzaSyCQX_Ckogcx9f3fuPUnptxv2uuTQCHOACM",

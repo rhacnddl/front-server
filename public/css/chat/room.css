@@ -95,6 +95,38 @@
             background: url("/image/chat/trash.png") no-repeat center/contain;
         }
 
+    .room-box .room-members-box{
+        height: 60px;
+
+        display: flex;
+        gap: 3px;
+    }
+        .room-members-box .room-member-box{
+            height: 100%;
+            width: 60px;
+
+            display: flex;
+            flex-direction: column;
+            
+            justify-content: center;
+            overflow: hidden;
+        }
+            .room-member-box .room-member-profile{
+                border-radius: 5px;
+                object-fit: cover;
+                
+                height: 47px;
+                width: 47px;
+            }
+            .room-member-box .room-member-nickname{
+                height: 12px;
+                font-size: var(--font-mb-sm);
+
+                text-overflow: ellipsis;
+                overflow: hidden;
+                white-space: nowrap;
+            }
+
     .room-box .chats{
         position: relative;
 
@@ -278,6 +310,21 @@
             height: 20px;
             width: 20px;
         }
+
+        .room-box .room-members-box{
+            height: 64px;
+        }
+            .room-members-box .room-member-box{
+                width: 64px;
+            }
+                .room-member-box .room-member-profile{                    
+                    height: 49px;
+                    width: 49px;
+                }
+                .room-member-box .room-member-nickname{
+                    height: 14px;
+                    font-size: var(--font-pc-sm);
+                }
 
     .room-box .chats{
         min-height: 500px;

@@ -19,6 +19,9 @@ window.addEventListener('load', () => {
     const btnSend = roomBox.querySelector('#btn-chat');
     const roomDrop = roomBox.querySelector('.room-drop');
     const roomBreak = roomBox.querySelector('.room-break');
+    const roomMembers = roomBox.querySelector('.room-members');
+    const roomMembersCount = roomBox.querySelector('.room-members-count');
+    const roomMembersBox = roomBox.querySelector('.room-members-box');
 
     let page = 1;
 
@@ -51,6 +54,40 @@ window.addEventListener('load', () => {
             roomDrop.classList.remove('hide');
         }
     })();
+
+    /* 채팅방에 가입한 멤버 목록 가져오기 */
+    (async() => {
+        const result = await axios({
+            url: `${origin}/api/v1/rooms/${chatRoomId}/users`,
+            method:'GET'
+        })
+        .then(response => response.data);
+        
+        const data = result.members;
+        const count = result.count;
+
+        roomMembersCount.innerText = count;
+
+        let html = '';
+        data.forEach((m) => {
+            const profileSrc = m.profileId != ''? `/upload${m.profilePath}/${m.profileId}_${m.profileName}`: `/image/common/profile.png`;
+
+            html += `
+            <div class="room-member-box" data-mid="${m.memberId}">
+                    <img src="${profileSrc}" class="room-member-profile" alt="멤버 프로필">
+                    <div class="room-member-nickname">
+                        ${m.nickname}
+                    </div>
+                </div>
+            `;
+        });
+
+        roomMembersBox.insertAdjacentHTML('beforeend', html);
+    })();
+    /* 채팅방에 가입한 멤버 수 CLICK */
+    roomMembersCount.addEventListener('click', () => roomMembersBox.classList.toggle('hide'));
+    roomMembers.addEventListener('click', () => roomMembersBox.classList.toggle('hide'));
+
 
     stomp.connect({}, function (frame) { //just stomp
 

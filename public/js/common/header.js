@@ -43,11 +43,13 @@ export const addNotification = (data) => {
     const ntProfile = data.senderProfileId? `/upload/${data.senderProfilePath}/${data.senderProfileId}_${data.senderProfileName}` : `/image/common/mini.png`;
     const ntBody = type === 'chat'? `${data.sender}님이 메세지를 보냈습니다.` : `${data.sender}님이 댓글을 남겼습니다.`;
 
-    const html = `<a data-rid="${data.targetId}" href="${destination}">
-                <div class="notification notification-on">
-                    <div class="nt-profile-box"><img src="${ntProfile}" class="nt-profile"></div>
-                    <div class="nt-body">${ntBody}</div>
-                </div></a>`;
+    const html = `
+            <div class="notification notification-on">
+                <div class="nt-profile-box"><img src="${ntProfile}" class="nt-profile"></div>
+                <a data-rid="${data.targetId}" href="${destination}">
+                    <div class="nt-body" data-ntid=${data.id}>${ntBody}</div>
+                </a>
+            </div>`;
 
     notifications.insertAdjacentHTML('afterbegin', html);
 }
@@ -104,6 +106,8 @@ export const hideToast = () => {
     else{
         iconBox.classList.add('hide');
         hdButtonBox.classList.remove('hide');
+
+        location = '/login?error=required';
     }
 })();
 
@@ -329,21 +333,6 @@ notifications.addEventListener('click', async (e) => {
     checkAllNotificationsByChatRoomAndMember(targetId, sessionMemberId);
 
     location = href;
-    /* await axios({
-        url: `${origin}/api/v1/notifications/${notificationId}/confirm`,
-        method: 'POST'
-    })
-    .then(response => response.data)
-    .then((data) => {
-        if(data === 'success'){
-            parentDiv.classList.remove('notification-on');
-            parentDiv.classList.add('notification-off');
-
-            window.open(href);
-        }
-    })
-    .catch(err => console.log('알림 단건 확인 중 예외 : ', err)); */
-
 });
 
 /* 종(알림) CLICK -> 알림 목록 조회 + 벨 OFF */
@@ -436,7 +425,6 @@ btnRemoveAll.addEventListener('click', (e) => {
             const dataList = notifications.querySelectorAll('.notification-off');
 
             dataList.forEach((nt) => {
-                console.log(nt);
                 nt.remove();
             });
 
