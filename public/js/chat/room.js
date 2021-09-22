@@ -143,14 +143,20 @@ window.addEventListener('load', () => {
             }
         });
 
+        stomp.send(`/pub/chat/enter`, {}, JSON.stringify({
+            memberId,
+            chatRoomId
+        }));
     });
 
     /* 퇴장 */
-    window.onbeforeunload = (e) => {
-
+    window.addEventListener('beforeunload', (e) => {
+        //
         e.preventDefault();
+        //e.returnValue = ''; //나갈것인지 확인 창이 뜸
 
-    }
+        stomp.send(`/pub/chat/exit`, {}, JSON.stringify({memberId, chatRoomId}));
+    });
 
     //메세지 전송 버튼 click
     btnSend.addEventListener('click', (e) => {
@@ -212,11 +218,14 @@ window.addEventListener('load', () => {
     /* 채팅 내역 LOAD Func */
     async function loadChats(){
         
-        const chatList = await axios({
+        const data = await axios({
             url: `${origin}/api/v1/chats/${chatRoomId}/member/${sessionMemberId}?page=${page}`,
             method: 'GET'
         })
         .then(response => response.data);
+        
+        const count = data.count;
+        const chatList = data.chats;
         
         appendChats(chatList);
         

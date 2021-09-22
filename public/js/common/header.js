@@ -163,10 +163,13 @@ hdProfileToLogout.addEventListener('click', (e) => {
         }
     }).then((response) => {
         if(response.data === 'success'){
-            sessionStorage.clear();
-            location = `/login`;
+            // sessionStorage.clear();
+            // location = `/login`;
         }
     }).catch(err => console.log(err));
+
+    sessionStorage.clear();
+    location = `/login`;
 });
 hdProfileToMypage.addEventListener('click', (e) => location = `/mypage/info`);
 
