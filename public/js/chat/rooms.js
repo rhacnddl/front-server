@@ -25,7 +25,7 @@ let page = 1;
     let html = '';
 
     list.forEach((room, idx) => {
-        console.log(room);
+        //console.log(room);
 
         const roomProfileId = room.profileId;
         const roomProfileName = room.profileName;
@@ -149,6 +149,7 @@ rooms.addEventListener('click', async (e) => {
     
     if(isJoin){
         //enter the ChatRoom
+        checkAllNotificationsByChatRoomAndMember(chatRoomId, sessionMemberId);
         location = e.target.href;
     }
     else{
@@ -180,9 +181,9 @@ btnConfirm.addEventListener('click', (e) => {
     })
     .then(response => response.data)
     .then(data => {
-        console.log(data);
+        //console.log(data);
         if(data > 0){
-            console.log('채팅방 참여 성공');
+            //console.log('채팅방 참여 성공');
             location = href;
         }
         else{
@@ -191,6 +192,16 @@ btnConfirm.addEventListener('click', (e) => {
     });
 
 });
+
+/* Function : 채팅방 입장 -> 그 채팅방의 알림 다 확인처리 */
+async function checkAllNotificationsByChatRoomAndMember(chatRoomId, memberId){
+
+    const count = await axios({
+        url: `${origin}/api/v1/notifications/room/${chatRoomId}/member/${memberId}`,
+        method : 'PUT'
+    })
+    .then(response => response.data);
+}
 
 function convertDate(d){
     const dt = new Date(d);

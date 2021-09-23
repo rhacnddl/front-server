@@ -89,6 +89,7 @@ window.addEventListener('load', () => {
     roomMembers.addEventListener('click', () => roomMembersBox.classList.toggle('hide'));
 
 
+    let isConnect = true;
     stomp.connect({}, function (frame) { //just stomp
 
         console.log('STOMP Connected');
@@ -138,9 +139,9 @@ window.addEventListener('load', () => {
             chats.insertAdjacentHTML('beforeend', html);
 
             /* 내가 채팅을 친다면 화면은 맨 아래로 이동 */
-            if(d.memberId == memberId){
+            //if(d.memberId == memberId){
                 scrollToDown();
-            }
+            //}
         });
 
         stomp.send(`/pub/chat/enter`, {}, JSON.stringify({
@@ -149,13 +150,28 @@ window.addEventListener('load', () => {
         }));
     });
 
+    /* 입장 */
+    window.addEventListener('focus', (e) => {
+        if(!isConnect){
+            console.log('enter')
+            isConnect = true;
+            stomp.send(`/pub/chat/enter`, {}, JSON.stringify({
+                memberId,
+                chatRoomId
+            }));
+        }
+    });
     /* 퇴장 */
     window.addEventListener('beforeunload', (e) => {
         //
         e.preventDefault();
         //e.returnValue = ''; //나갈것인지 확인 창이 뜸
-
-        stomp.send(`/pub/chat/exit`, {}, JSON.stringify({memberId, chatRoomId}));
+        if(isConnect){
+            console.log('exit');
+            isConnect = false;
+            stomp.send(`/pub/chat/exit`, {}, JSON.stringify({memberId, chatRoomId}));
+        }
+        
     });
 
     //메세지 전송 버튼 click
