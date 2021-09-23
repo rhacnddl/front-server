@@ -94,7 +94,7 @@
                 justify-content: center;
 
                 height: 14px;
-                width: 14px;
+                min-width: 14px;
 
                 font-size: var(--font-mb-sm);
             }
@@ -133,7 +133,7 @@
                 }
             .my-room .my-room-count{
                 height: 16px;
-                width: 16px;
+                min-width: 16px;
                 line-height: 16px;
             }
 }

@@ -398,6 +398,8 @@
         btnMemberDrop.addEventListener('click', (e) => {
             e.preventDefault();
 
+            if(!confirm('정말 탈퇴하시겠습니까?')) return;
+
             axios({
                 url: `${origin}/api/v1/members/drop`,
                 method: 'DELETE',
