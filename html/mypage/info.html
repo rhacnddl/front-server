@@ -148,10 +148,10 @@
                     <input class="hide" accept="image/*" type="file" id="mp-profile-input">
                 </div>
 
-                <!-- Nickname -->
+                <!-- Nickname (Immutable) -->
                 <div class="mp-nickname-box">
                     <label for="mp-nickname-input">닉네임</label>
-                    <input type="text" id="mp-nickname-input">
+                    <div id="mp-nickname-input"></div>
                 </div>
 
                 <!-- E-mail -->
@@ -162,13 +162,65 @@
 
                 <!-- Password -->
                 <div class="mp-password-box">
-                    <button>비밀번호 변경</button>
+                    <button class="btn-password-update">비밀번호 변경</button>
                     <!-- Modal 띄워서 처리? -->
                 </div>
 
                 <button class="btn-update">회원 정보 변경</button>
-            </div>
 
+                <div class="member-drop-box">
+                    <div class="top-box">
+                        <div class="member-drop-text">
+                            회원 탈퇴
+                        </div>
+                        <div class="member-drop-arrow">
+                            >
+                        </div>
+                    </div>
+
+                    <div class="bottom-box hide">
+                        <div class="survey-list">
+                            <div class="survey-item">
+                                <div class="survey-title">Q. 탈퇴하시는 이유를 알려주세요.</div>
+
+                                <div class="item-list">
+                                    <div class="item">
+                                        <input name="first-item" type="radio" value="1" checked>사용할 일이 많지 않아서
+                                    </div>
+                                    <div class="item">
+                                        <input name="first-item" type="radio" value="2">서비스가 마음에 들지 않아서
+                                    </div>
+                                    <div class="item">
+                                        <input name="first-item" type="radio" value="3">기타
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="survey-item">
+                                <div class="survey-title">Q. 만족도는 어땠나요?</div>
+
+                                <div class="item-list">
+                                    <div class="item">
+                                        <input name="second-item" type="radio" value="1" checked>좋아요
+                                    </div>
+                                    <div class="item">
+                                        <input name="second-item" type="radio" value="1">보통이에요
+                                    </div>
+                                    <div class="item">
+                                        <input name="second-item" type="radio" value="1">별로에요
+                                    </div>
+                                </div>
+                            </div>
+                        </ul>
+                        
+                        <div class="drop-check-box">
+                            <input type="password" id="drop-check-password" placeholder="비밀번호를 입력해주세요.">
+                        </div>
+
+                        <button class="btn-member-drop">탈퇴</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </main>
     </div>
 
@@ -183,6 +235,20 @@
         const mpEmailInput = mpBox.querySelector('#mp-email-input');
         const btnUpdate = mpBox.querySelector('.btn-update');
 
+        const btnPasswordUpdate = mpBox.querySelector('.btn-password-update');
+        const btnMemberDrop = mpBox.querySelector('.btn-member-drop');
+        const dropCheckPassword = mpBox.querySelector('#drop-check-password');
+        const firstItem = mpBox.querySelector('input[name="first-item"');
+        const secondItem = mpBox.querySelector('input[name="second-item"');
+
+        const memberDropArrow = mpBox.querySelector('.member-drop-arrow');
+        const bottomBox = mpBox.querySelector('.bottom-box');
+
+        /* MODAL */
+        const oldPassword = modalCanvas.querySelector('#old-password');
+        const newPassword = modalCanvas.querySelector('#new-password');
+        const modalBtnUpdate = modalCanvas.querySelector('.modal-btn-update');
+
         var formData = null;
 
         /* 기존 등록된 프로필 이미지가 있으면 그것으로 출력 */
@@ -193,6 +259,20 @@
                 mpProfile.style.backgroundImage = `url("/upload${src}")`;
             }
         })();
+
+        /* 내 정보 조회 */
+        (async () => {
+
+            const data = await axios({
+                url: `${origin}/api/v1/members/${sessionMemberId}`,
+                method: `GET`
+            })
+            .then(response => response.data);
+
+            mpNicknameInput.innerText = data.nickname;
+            mpEmailInput.value = data.email;
+
+            })();
 
         /* Profile 이미지 onChange */
         mpProfileInput.addEventListener('change', function (e) {
@@ -228,19 +308,22 @@
 
             const nickname = mpNicknameInput.value;
             const email = mpEmailInput.value;
+            const profileId = null;
 
-            const profileId = await axios({
-                url: `/mypage/upload`,
-                method: 'POST',
-                data: formData
-            })
-            .then(resp => resp.data);
+            if(formData){
+                profileId = await axios({
+                    url: `/mypage/upload`,
+                    method: 'POST',
+                    data: formData
+                })
+                .then(resp => resp.data);
+            }
 
-            console.log(profileId.data);
+            //console.log(profileId.data);
 
             const datas = {
-                name: formData.get('file').name,
-                profileId: profileId.data,
+                name: formData? formData.get('file').name : null,
+                profileId: profileId? profileId.data : null,
                 id: sessionMemberId,
                 nickname: nickname,
                 email: email,
@@ -256,13 +339,13 @@
             })
             .then(response => response.data)
             .then(data => {
+                
                 if(data != null){
                     sessionStorage.setItem('profileId', datas.profileId);
                     sessionStorage.setItem('profileName', datas.name);
                     sessionStorage.setItem('profilePath', datas.path);
-
-                    location.reload();
                 }
+                location.reload();
             })
             .catch(err => console.log('Exception Occured : ', err));
         });
@@ -276,6 +359,74 @@
             return `/${year}/${month + 1}`;
         }
         
+        /* 비밀번호 변경 REQUEST */
+        modalBtnUpdate.addEventListener('click', async (e) => {
+
+            const oldPasswordValue = oldPassword.value;
+            const newPasswordValue = newPassword.value;
+
+            /* Validation */
+            if(newPasswordValue.length < 6 || newPasswordValue.length > 12){
+                alert('비밀번호를 최소 6자, 최대 12자에 맞게 입력해주세요.');
+                modalCanvas.classList.toggle('hide');
+
+                return;
+            }
+
+            const result = await axios({
+                url: `${origin}/api/v1/members/password`,
+                method: 'PATCH',
+                headers: {'Content-type':'application/json'},
+                data: {
+                    id: sessionMemberId,
+                    oldPassword: oldPasswordValue,
+                    newPassword: newPasswordValue
+                }
+            })
+            .then(response => response.data)
+            .then(data => alert('비밀번호가 변경되었습니다.'))
+            .catch(err => alert('비밀번호 변경에 실패하였습니다. 비밀번호를 확인해주세요. '));
+
+            modalCanvas.classList.toggle('hide');
+        });
+
+        /* 회원탈퇴 박스 CLICK */
+        memberDropArrow.addEventListener('click', (e) => {
+            bottomBox.classList.toggle('hide');
+        });
+        /* 회원탈퇴 */
+        btnMemberDrop.addEventListener('click', (e) => {
+            e.preventDefault();
+
+            axios({
+                url: `${origin}/api/v1/members/drop`,
+                method: 'DELETE',
+                headers: {'Content-type': 'application/json'},
+                data: {
+                    id: sessionMemberId,
+                    password: dropCheckPassword.value,
+                    first: firstItem.value,
+                    second: secondItem.value
+                }
+            })
+            .then(response => response.data)
+            .then(data => {
+                if(data === 'success'){
+                    sessionStorage.clear();
+                    location = '/login';
+                }
+                
+            })
+            .catch(err => alert('회원 탈퇴 실패'));
+        });
+
+        /* 비밀번호 변경 버튼 CLICK */
+        btnPasswordUpdate.addEventListener('click', (e) => {
+
+            newPassword.value = '';
+            oldPassword.value = '';
+            modalCanvas.classList.toggle('hide');
+        });
     });
 </script>
 
@@ -306,17 +457,30 @@
     <div class="modal w-100 h-40">
         <div class="modal-hd">
             <div class="modal-title">
-                CHAT ROOM DROP
+                PASSWORD UPDATE
             </div>
         </div>
     
         <div class="modal-body">
-            채팅방을 탈퇴하시겠습니까?
+            <div class="modal-body-content">
+                <div class="body-text">
+                    현재 비밀번호를 입력해주세요.
+                </div>
+                <div class="body-content">
+                    <input type="password" name="old-password" id="old-password" placeholder="현재 비밀번호">
+                </div>
+
+                <div class="body-text">
+                    변경하실 비밀번호를 입력해주세요. (6글자 ~ 12글자)
+                </div>
+                <div class="body-content">
+                    <input type="password" name="new-password" id="new-password" placeholder="새 비밀번호">
+                </div>
+            </div>
         </div>
     
         <div class="modal-ft">
-            <button class="modal-btn-register">REGISTER</button>
-            <button class="modal-btn-drop">DROP</button>
+            <button class="modal-btn-update">UPDATE</button>
             <button class="modal-btn-cancel">CANCEL</button>
         </div>
     </div>

@@ -30,7 +30,7 @@ messaging.onMessage((payload) => {
     const senderProfilePath = payload.data.senderProfilePath;
     const targetId = payload.data.targetId;
 
-    console.log('Message received. ', payload);
+    //console.log('Message received. ', payload);
     //console.log(`sender: ${sender}, type: ${type}`);
 
     const data = {

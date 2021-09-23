@@ -118,6 +118,10 @@
             .box-sub .find-pw{
                 cursor: pointer;
             }
+        
+    .modal .modal-btn-confirm{
+        background-color: var(--btn-create);
+    }
 
 @media screen and (min-width: 700px){
     #main{

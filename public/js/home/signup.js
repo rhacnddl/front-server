@@ -11,6 +11,20 @@ const btnSignup = formSignup.querySelector('#btn-signup');
 /* MODAL */
 const modalBtnConfirm = modal.querySelector('.modal-btn-confirm');
 
+const hdBtnLogin = header.querySelector('.hd-btn-login');
+const hdBtnSignup = header.querySelector('.hd-btn-signup');
+
+/* LOGIN CLICK */
+hdBtnLogin.addEventListener('click', (e) => {
+    e.preventDefault();
+    location = `/login`;
+});
+/* SINGUP CLICK */
+hdBtnSignup.addEventListener('click', (e) => {
+    e.preventDefault();
+    location = `/signup`;
+});
+
 //이미 로그인 했으면 초기 화면으로 돌려보냄
 if(sessionStorage.getItem('memberId')){
     location = '/chat/rooms';

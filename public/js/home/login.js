@@ -36,6 +36,20 @@
     const errorValue = param.get('error');
     const inputToken = document.querySelector('input[name="token"]');
 
+    const hdBtnLogin = header.querySelector('.hd-btn-login');
+    const hdBtnSignup = header.querySelector('.hd-btn-signup');
+
+    /* LOGIN CLICK */
+    hdBtnLogin.addEventListener('click', (e) => {
+        e.preventDefault();
+        location = `/login`;
+    });
+    /* SINGUP CLICK */
+    hdBtnSignup.addEventListener('click', (e) => {
+        e.preventDefault();
+        location = `/signup`;
+    });
+
     if(errorValue === 'required'){
         alert('로그인이 필요합니다.');
     }

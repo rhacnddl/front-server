@@ -1,5 +1,3 @@
-//const origin = 'http://localhost:8080';
-//const origin = 'https://ichatu.ga';
 const uri = '/api/v1';
 
 const header = document.querySelector('#header');
@@ -91,7 +89,7 @@ export const hideToast = () => {
     })
     .then(response => response.data)
     .then((data) => {
-        console.log(`미확인 알림 : `, data);
+        //console.log(`미확인 알림 : `, data);
         if(data == 0) offBell();
         else          onBell();
     });
@@ -152,7 +150,7 @@ hdProfileContent.addEventListener('mouseout', (e) => hdProfileContent.classList.
 
 /* text Click 시 */
 hdProfileToLogout.addEventListener('click', (e) => {
-    console.log('logout');
+    //console.log('logout');
     axios({
         url: `${origin}/api/v1/logout`,
         method: 'POST',
@@ -277,7 +275,7 @@ function hideBlackScreen(){
             <div class="my-room-info">
                 <div class="top-box as-top-box">
                     <div class="my-room-name">
-                        <a data-rid="${cr.id}" href="room?id=${cr.id}">${cr.name}</a>
+                        <a data-rid="${cr.id}" href="/chat/room?id=${cr.id}">${cr.name}</a>
                     </div>
                     <div class="my-room-chat-box">
                         <div class="my-room-chat">
@@ -445,7 +443,7 @@ btnCheckAll.addEventListener('click', (e) => {
     })
     .then(response => response.data)
     .then((data) => {
-        console.log(`data : `, data);
+        //console.log(`data : `, data);
         if(data < 1) return;
 
         const dataList = notifications.querySelectorAll('.notification-on');
