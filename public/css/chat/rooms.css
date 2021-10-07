@@ -12,7 +12,7 @@
     .rooms-box .rooms-btn-box{
         display: flex;
         justify-content: flex-end;
-    } 
+    }  
         .rooms-btn-box .btn-create-room{
             cursor: pointer;
             background-color: var(--btn-confirm);
