@@ -179,5 +179,39 @@
     </div>
 
 </div>
+<!-- <script>
+/* Async Non-blocking */
+function A(){
+
+    axios({
+        url: `http://localhost:8080/api/v1/tests/do`,
+        method: 'get'
+    })
+        .then(resp => resp.data)
+        .then(data => {
+            console.log(data);
+        });
+}
+
+(()=>{ //개발팀장
+
+    //사원 A에게 '비동기' 업무 지시
+    A();
+    //사원 A는 '논블로킹' 업무 수행
+
+    console.log('second'); //팀장이 할 일 수행
+})();
+
+/* sync blocking */
+async function B(){
+    const data = await axios({
+        url: `http://localhost:8080/api/v1/tests/do`,
+        method: 'get'
+    })
+        .then(resp => resp.data);
+
+    return data;
+}
+</script> -->
 </body>
 </html>
