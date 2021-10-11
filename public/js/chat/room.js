@@ -42,7 +42,7 @@ window.addEventListener('load', () => {
             method: `GET`
         })
         .then(response => response.data);
-        console.log(chatRoom)
+        
         chatTitleVal.innerText = chatRoom.name;
         
         if(chatRoom.memberId == memberId){//채팅방 주인
@@ -231,19 +231,17 @@ window.addEventListener('load', () => {
         loadChats();
     });
 
-    /* 채팅 내역 LOAD Func */
+    /* 채팅 내역 LOAD Func V2*/
     async function loadChats(){
         
-        const data = await axios({
-            url: `${origin}/api/v1/chats/${chatRoomId}/member/${sessionMemberId}?page=${page}`,
+        const slice = await axios({
+            // url: `${origin}/api/v1/chats/${chatRoomId}/member/${sessionMemberId}?page=${page}`,
+            url: `${origin}/api/v2/chats/${chatRoomId}/member/${sessionMemberId}?page=${page}`,
             method: 'GET'
         })
         .then(response => response.data);
         
-        const count = data.count;
-        const chatList = data.chats;
-        
-        appendChats(chatList);
+        appendChats(slice);
         
         if(page == 1)
             scrollToDown();
@@ -251,14 +249,15 @@ window.addEventListener('load', () => {
         page++;
     }
 
-    function appendChats(chatList){
+    function appendChats(slice){
         
-        if(chatList.length < 1) return;
+        if(slice.last) return;
 
         showMoreBlock();
 
         let html = '';
 
+        const chatList = slice.content;
         chatList.forEach((chat) => {
 
             //const className = chat.memberId == memberId ? 'mine' : '';
