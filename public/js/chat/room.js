@@ -251,8 +251,8 @@ window.addEventListener('load', () => {
 
     function appendChats(slice){
         
-        if(slice.last) return;
-
+        if(slice.last === 'true') return;
+        
         showMoreBlock();
 
         let html = '';
