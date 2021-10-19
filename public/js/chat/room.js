@@ -348,7 +348,7 @@ window.addEventListener('load', () => {
         })
         .then(response => response.data)
         .then(data => {
-            if(data === 1){
+            if(data == 'success'){
                 location = `/chat/rooms`;
             }
             else{
