@@ -1,6 +1,3 @@
-//const origin = 'http://localhost:8080';
-//const origin = 'https://ichatu.ga';
-
 const btnCreateRoom = document.querySelector('.btn-create-room');
 const inputName = document.querySelector('input[name="name"]');
 const rooms = document.querySelector('.rooms');
@@ -13,20 +10,21 @@ const btnCancel = modal.querySelector('.modal-btn-cancel');
 const btnCreate = modal.querySelector('.modal-btn-create');
 
 let page = 1;
+let isLast = false;
 
 /* request for list */
-/* 얘가 성능이 안나온다!!? */
-(async () => {
-    const list = await axios({
+async function showList(page){
+    const slice = await axios({
         url: `${origin}/api/v1/rooms/${sessionRegionId}/list/${page}`,
         method: 'GET'
     }).then(response => response.data);
-    
+
+    isLast = slice.last;
+    const list = slice.content;
+
     let html = '';
 
     list.forEach((room, idx) => {
-        //console.log(room);
-
         const roomProfileId = room.profileId;
         const roomProfileName = room.profileName;
         const roomProfilePath = room.profilePath;
@@ -62,7 +60,17 @@ let page = 1;
     });
 
     rooms.insertAdjacentHTML('beforeend', html);
-})();
+}
+//init
+showList(page++);
+window.addEventListener('scroll', () => {
+
+    let val = window.innerHeight + (window.scrollY - 70);
+
+    if(val >= main.clientHeight && !isLast){
+        showList(page++);
+    }
+});
 
 /* request for add Room */
 btnCreateRoom.addEventListener('click', async (e) => {
@@ -124,7 +132,7 @@ btnCreate.addEventListener('click', async (e) => {
 
                 </div>`;
 
-    rooms.insertAdjacentHTML('beforeend', html);
+    rooms.insertAdjacentHTML('afterbegin', html);
 
     modalCanvas.classList.toggle('hide');
 });
